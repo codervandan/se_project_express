@@ -1,0 +1,61 @@
+$kind: http-request
+name: "[+] [GET] Check if an item is missing in the database after deleting it"
+url: "{{base_url}}/items"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"The deleted item must not still be in the database\", () => {\r
+
+      \  const items = pm.response.json();\r
+
+      \  const deletedId = pm.collectionVariables.get(\"deleted_item_id\");\r
+
+      \  const hasItem = !!items?.find((item) => item._id === deletedId);\r
+
+      \r
+
+      \  pm.expect(hasItem).to.eq(false);\r
+
+      });\r\n"
+    language: text/javascript
+  - type: beforeRequest
+    code: |
+      const createItemReqOpts = {
+        url: `${pm.collectionVariables.get("base_url")}/items`,
+        method: "POST",
+        header: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: pm.collectionVariables.get("item_name"),
+          weather: pm.collectionVariables.get("item_weather"),
+          imageUrl: pm.collectionVariables.get("item_imageUrl"),
+        }),
+      };
+
+      pm.sendRequest(createItemReqOpts, function (error, response) {
+        pm.test("Preliminary POST /items request should be successful", () => {
+          pm.expect(response.code).to.be.oneOf([200, 201]);
+        });
+
+        try {
+          const item = response.json();
+
+          const deleteItemReqOpts = {
+            url: `${pm.collectionVariables.get("base_url")}/items/${id}`,
+            method: "DELETE",
+            header: {
+              "Content-Type": "application/json",
+            },
+          };
+
+          pm.sendRequest(deleteItemReqOpts, function (error, response) {
+            pm.test(`Preliminary DELETE /items/${id} request should be successful`, () => {
+              pm.expect(response.code).to.be.oneOf([200, 201, 404]);
+            });
+
+            const deleted = response.json();
+            pm.collectionVariables.set("deleted_item_id", deleted?._id);
+          });
+        } catch (e) {}
+      });
+    language: text/javascript
+order: 7000

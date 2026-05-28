@@ -1,0 +1,10 @@
+workspace:
+  id: a115e437-968f-4542-8ee0-c8460c7ee5fc
+localResources:
+  docs:
+    - ..\README.md
+  collections:
+    - ../postman/collections/Sprint 12 Tests [+] Full-Time Only
+cloudResources:
+  collections:
+    ../postman/collections/Sprint 12 Tests [+] Full-Time Only: 54972244-a16897d7-3738-4e06-bc58-b56c08dd54ee

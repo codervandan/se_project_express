@@ -1,0 +1,50 @@
+$kind: collection
+variables:
+  base_url: http://localhost:3001
+  user_name: ""
+  item_name: ""
+  item_weather: ""
+  user_id: ""
+  user_avatar: ""
+  item_imageUrl: ""
+  item_id: ""
+  user_id_code: ""
+scripts:
+  - type: http:beforeRequest
+    code: |
+      const base_url = pm.collectionVariables.get("base_url");
+      if (!base_url) {
+        pm.collectionVariables.set("base_url", "http://localhost:3001");
+      }
+
+      const user_name = pm.collectionVariables.get("user_name");
+      if (!user_name) {
+        pm.collectionVariables.set("user_name", pm.variables.replaceIn("{{$randomFullName}}"));
+      }
+
+      const user_avatar = pm.collectionVariables.get("user_avatar");
+      if (!user_avatar) {
+        pm.collectionVariables.set("user_avatar", "https://example.com/avatar.png");
+      }
+
+      const item_name = pm.collectionVariables.get("item_name");
+      if (!item_name) {
+        pm.collectionVariables.set("item_name", "Test Item");
+      }
+
+      const item_weather = pm.collectionVariables.get("item_weather");
+      if (!item_weather) {
+        pm.collectionVariables.set("item_weather", ["hot", "cold"].at(Math.floor(Math.random() * 2)));
+      }
+
+      const item_imageUrl = pm.collectionVariables.get("item_imageUrl");
+      if (!item_imageUrl) {
+        pm.collectionVariables.set("item_imageUrl", "https://example.com/image.png");
+      }
+    language: text/javascript
+  - type: http:afterResponse
+    code: |-
+      pm.test("Response should contain a JSON object", () => {
+          pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');
+      });
+    language: text/javascript
