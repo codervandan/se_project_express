@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/user");
 
 // GET /users
 const getUsers = (req, res) => {
@@ -33,21 +33,27 @@ const createUser = (req, res) => {
 
 const getUser = (req, res) => {
   const { userId } = req.params;
-  User.findById(userId)
+
+  return User.findById(userId)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: "User not found" });
+        return res.status(404).send({
+          message: "User not found",
+        });
       }
-      res.status(200).send(user);
+
+      return res.status(200).send(user);
     })
     .catch((err) => {
-      console.error(err);
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid user ID format" });
+        return res.status(400).send({
+          message: "Invalid user ID format",
+        });
       }
-      return res
-        .status(500)
-        .send({ message: "An error occurred while fetching the user" });
+
+      return res.status(500).send({
+        message: "An error occurred while fetching the user",
+      });
     });
 };
 
