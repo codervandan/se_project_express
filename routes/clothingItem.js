@@ -1,11 +1,12 @@
 const router = require("express").Router();
-const { likeItem, dislikeItem } = require("../controllers/clothingItems");
 
 const {
   createItem,
   getItems,
   updateItem,
   deleteItem,
+  likeItem,
+  dislikeItem,
 } = require("../controllers/clothingItem");
 
 // CREATE
