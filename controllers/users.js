@@ -6,26 +6,23 @@ const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => {
-      res.status(200).send(users);
+      res.send(users);
     })
-    .catch((err) => {
-      console.error(err);
-      return res
-        .status(500)
-        .send({ message: "An error occurred while fetching users" });
-    });
+    .catch(() =>
+      res
+        .status(SERVER_ERROR)
+        .send({ message: "An error has occurred on the server." })
+    );
 };
 
 // POST /users
 const createUser = (req, res) => {
   const { name, avatar } = req.body;
-  console.log(name, avatar);
   User.create({ name, avatar })
     .then((user) => {
-      res.status(201).send(user);
+      res.send(user);
     })
     .catch((err) => {
-      console.error(err);
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({ message: "Invalid user data" });
       }
@@ -41,12 +38,12 @@ const getUser = (req, res) => {
   return User.findById(userId)
     .then((user) => {
       if (!user) {
-        return res.status(BAD_REQUEST).send({
+        return res.status(NOT_FOUND).send({
           message: "User not found",
         });
       }
 
-      return res.status(200).send(user);
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === "CastError") {
@@ -56,7 +53,7 @@ const getUser = (req, res) => {
       }
 
       return res.status(SERVER_ERROR).send({
-        message: "An error occurred while fetching the user",
+        message: "An error has occurred on the server.",
       });
     });
 };
