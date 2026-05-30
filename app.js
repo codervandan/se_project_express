@@ -32,7 +32,7 @@ app.use(routes);
 // 404
 app.use((req, res, next) => {
   const err = new Error("Requested resource not found");
-  err.statusCode = 404;
+  err.statusCode = BAD_REQUEST;
   next(err);
 });
 

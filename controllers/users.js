@@ -1,5 +1,7 @@
 const User = require("../models/user");
 
+const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
+
 // GET /users
 const getUsers = (req, res) => {
   User.find({})
@@ -25,9 +27,11 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: "Invalid user data" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid user data" });
       }
-      return res.status(500).send({ message: err.message });
+      return res
+        .status(SERVER_ERROR)
+        .send({ message: "An error has occurred on the server." });
     });
 };
 
@@ -37,7 +41,7 @@ const getUser = (req, res) => {
   return User.findById(userId)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({
+        return res.status(BAD_REQUEST).send({
           message: "User not found",
         });
       }
@@ -46,12 +50,12 @@ const getUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(400).send({
+        return res.status(BAD_REQUEST).send({
           message: "Invalid user ID format",
         });
       }
 
-      return res.status(500).send({
+      return res.status(SERVER_ERROR).send({
         message: "An error occurred while fetching the user",
       });
     });
