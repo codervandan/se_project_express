@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const errorHandler = require("./middlewares/error");
-const { BAD_REQUEST } = requizre("./utils/errors");
+
+const { BAD_REQUEST } = require("./utils/errors");
 
 const { PORT = 3001 } = process.env;
 
