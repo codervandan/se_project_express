@@ -33,4 +33,9 @@ npm install
 npm run dev
 ```
 
+# Project Pitch Video:
+
+Check out this video where I describe my project and technologies used:
+https://www.loom.com/share/2806870e364a4a5eaf5acdfe4921a0e9
+
 The server runs on port 3001 by default.
