@@ -3,16 +3,21 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const errorHandler = require("./middlewares/error");
 const auth = require("./middlewares/auth");
+const routes = require("./routes");
 const { createUser, login } = require("./controllers/users");
 
 const { PORT = 3001 } = process.env;
 
 const app = express();
 
+app.use(cors());
+app.use(express.json());
+
 app.post("/signup", createUser);
 app.post("/signin", login);
 
-app.use(cors());
+app.use(auth);
+app.use(routes);
 
 const { NOT_FOUND } = require("./utils/errors");
 
@@ -25,13 +30,6 @@ mongoose
     // console.error("Error connecting to MongoDB:", err);
   });
 
-const routes = require("./routes");
-
-app.use(express.json());
-
-app.use(auth);
-app.use(routes);
-
 // app.use((req, res, next) => {
 //   req.user = {
 //     _id: "5d8b8592978f8bd833ca8133",
@@ -39,8 +37,6 @@ app.use(routes);
 
 //   next();
 // });
-
-app.use(routes);
 
 // 404
 app.use((req, res, next) => {

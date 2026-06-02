@@ -33,7 +33,7 @@ const createUser = (req, res) => {
       })
     )
     .then((user) => {
-      res.send(user);
+      res.status(201).send(user);
     })
     .catch((err) => {
       if (err.code === 11000) {
