@@ -33,7 +33,12 @@ const createUser = (req, res) => {
       })
     )
     .then((user) => {
-      res.status(201).send(user);
+      res.status(201).send({
+        _id: user._id,
+        name: user.name,
+        avatar: user.avatar,
+        email: user.email,
+      });
     })
     .catch((err) => {
       if (err.code === 11000) {
@@ -83,19 +88,23 @@ const getUser = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findUserByCredentials(email, password)
+  if (!email || !password) {
+    return res.status(BAD_REQUEST).send({
+      message: "Invalid data",
+    });
+  }
+
+  return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
 
-      res.send({ token });
+      return res.send({ token });
     })
-    .catch(() => {
-      res.status(401).send({
+    .catch(() => res.status(401).send({
         message: "Incorrect email or password",
-      });
-    });
+      }));
 };
 
 const getCurrentUser = (req, res) => {
