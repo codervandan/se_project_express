@@ -101,7 +101,7 @@ const deleteItem = (req, res) => {
       throw error;
     })
     .then((item) => {
-      if (item.owner.toString() !== req.user._id) {
+      if (item.owner.toString() !== req.user._id.toString()) {
         return res.status(FORBIDDEN).send({
           message: "Forbidden",
         });
