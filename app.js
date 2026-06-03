@@ -4,7 +4,7 @@ const cors = require("cors");
 const errorHandler = require("./middlewares/error");
 const auth = require("./middlewares/auth");
 const routes = require("./routes");
-const { createUser, login } = require("./controllers/users");
+// const { createUser, login } = require("./controllers/users");
 
 const { PORT = 3001 } = process.env;
 
@@ -13,8 +13,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/signup", createUser);
-app.post("/signin", login);
+// app.post("/signup", createUser);
+// app.post("/signin", login);
 
 app.use(auth);
 app.use(routes);

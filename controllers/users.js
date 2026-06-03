@@ -3,7 +3,14 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { JWT_SECRET } = require("../utils/config");
 
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
+const {
+  BAD_REQUEST,
+  NOT_FOUND,
+  SERVER_ERROR,
+  CONFLICT,
+  // FORBIDDEN,
+  UNAUTHORIZED,
+} = require("../utils/errors");
 
 // GET /users
 const getUsers = (req, res) => {
@@ -42,7 +49,7 @@ const createUser = (req, res) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        return res.status(409).send({
+        return res.status(CONFLICT).send({
           message: "Email already exists",
         });
       }
@@ -102,9 +109,11 @@ const login = (req, res) => {
 
       return res.send({ token });
     })
-    .catch(() => res.status(401).send({
+    .catch(() =>
+      res.status(UNAUTHORIZED).send({
         message: "Incorrect email or password",
-      }));
+      })
+    );
 };
 
 const getCurrentUser = (req, res) => {
