@@ -2,7 +2,6 @@ const router = require("express").Router();
 
 const {
   createItem,
-  getItems,
   updateItem,
   deleteItem,
   likeItem,
@@ -11,9 +10,6 @@ const {
 
 // CREATE
 router.post("/", createItem);
-
-// READ
-router.get("/", getItems);
 
 // UPDATE
 router.put("/:itemId", updateItem);
