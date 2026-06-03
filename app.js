@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const errorHandler = require("./middlewares/error");
-const auth = require("./middlewares/auth");
+// const auth = require("./middlewares/auth");
 const routes = require("./routes");
 // const { createUser, login } = require("./controllers/users");
 
@@ -16,7 +16,7 @@ app.use(express.json());
 // app.post("/signup", createUser);
 // app.post("/signin", login);
 
-app.use(auth);
+// app.use(auth);
 app.use(routes);
 
 const { NOT_FOUND } = require("./utils/errors");
