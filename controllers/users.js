@@ -12,19 +12,6 @@ const {
   UNAUTHORIZED,
 } = require("../utils/errors");
 
-// GET /users
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => {
-      res.send(users);
-    })
-    .catch(() =>
-      res
-        .status(SERVER_ERROR)
-        .send({ message: "An error has occurred on the server." })
-    );
-};
-
 // POST /users
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
@@ -109,11 +96,17 @@ const login = (req, res) => {
 
       return res.send({ token });
     })
-    .catch(() =>
-      res.status(UNAUTHORIZED).send({
-        message: "Incorrect email or password",
-      })
-    );
+    .catch((err) => {
+      if (err.message === "Incorrect email or password") {
+        return res.status(UNAUTHORIZED).send({
+          message: "Incorrect email or password",
+        });
+      }
+
+      return res.status(SERVER_ERROR).send({
+        message: "An error has occurred on the server.",
+      });
+    });
 };
 
 const getCurrentUser = (req, res) => {
@@ -174,7 +167,6 @@ const updateProfile = (req, res) => {
 };
 
 module.exports = {
-  getUsers,
   createUser,
   getUser,
   login,

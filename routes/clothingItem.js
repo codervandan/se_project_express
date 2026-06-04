@@ -3,7 +3,6 @@ const router = require("express").Router();
 const {
   createItem,
   getItems,
-  updateItem,
   deleteItem,
   likeItem,
   dislikeItem,
@@ -12,16 +11,11 @@ const {
 // CREATE
 router.post("/", createItem);
 
-// READ
-router.get("/", getItems);
-
-// UPDATE
-router.put("/:itemId", updateItem);
-
 // DELETE
 router.delete("/:itemId", deleteItem);
 
 router.put("/:itemId/likes", likeItem);
 router.delete("/:itemId/likes", dislikeItem);
+router.get("/", getItems);
 
 module.exports = router;

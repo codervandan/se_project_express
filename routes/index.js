@@ -1,11 +1,7 @@
 const router = require("express").Router();
-
-// const auth = require("../middlewares/auth");
 const auth = require("../middlewares/auth");
-
 const userRouter = require("./users");
 const clothingItemRouter = require("./clothingItem");
-
 const { createUser, login } = require("../controllers/users");
 
 router.post("/signup", createUser);
