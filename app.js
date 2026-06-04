@@ -2,9 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const errorHandler = require("./middlewares/error");
-// const auth = require("./middlewares/auth");
 const routes = require("./routes");
-// const { createUser, login } = require("./controllers/users");
 
 const { PORT = 3001 } = process.env;
 
@@ -13,32 +11,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// app.post("/signup", createUser);
-// app.post("/signin", login);
-
-// app.use(auth);
 app.use(routes);
 
 const { NOT_FOUND } = require("./utils/errors");
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")
-  .then(() => {
-    // console.log("Connected to MongoDB");
-  })
-  .catch(() => {
-    // console.error("Error connecting to MongoDB:", err);
-  });
+  .then(() => {})
+  .catch(() => {});
 
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: "5d8b8592978f8bd833ca8133",
-//   };
-
-//   next();
-// });
-
-// 404
 app.use((req, res, next) => {
   const err = new Error("Requested resource not found");
   err.statusCode = NOT_FOUND;
@@ -47,6 +28,4 @@ app.use((req, res, next) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  // console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => {});
