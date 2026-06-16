@@ -39,3 +39,15 @@ Check out this video where I describe my project and technologies used:
 https://www.loom.com/share/2806870e364a4a5eaf5acdfe4921a0e9
 
 The server runs on port 3001 by default.
+
+## Domain
+
+https://api.wtwrdaniel.servernux.com
+
+## Frontend Repository
+
+https://github.com/codervandan/se_project_react
+
+## Project Pitch Video
+
+[WTWR Full Stack Project Pitch](YOUR_GOOGLE_DRIVE_LINK)
