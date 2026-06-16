@@ -50,4 +50,4 @@ https://github.com/codervandan/se_project_react
 
 ## Project Pitch Video
 
-[WTWR Full Stack Project Pitch](YOUR_GOOGLE_DRIVE_LINK)
+[WTWR Full Stack Project Pitch](https://www.loom.com/share/2ec2ceb7b74b42689d4e944e674c5255))
