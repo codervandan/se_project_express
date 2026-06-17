@@ -19,7 +19,7 @@ app.use(requestLogger);
 
 app.get("/crash-test", () => {
   setTimeout(() => {
-    next(new BadRequestError("Server will crash now"));
+    throw new Error("Server will crash now");
   }, 0);
 });
 
