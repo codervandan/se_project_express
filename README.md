@@ -42,6 +42,8 @@ The server runs on port 3001 by default.
 
 ## Domain
 
+https://wtwrdaniel.servernux.com/
+
 https://api.wtwrdaniel.servernux.com
 
 ## Frontend Repository

@@ -33,6 +33,13 @@ const validateUserSignin = celebrate({
   }),
 });
 
+const validateUserUpdate = celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    avatar: Joi.string().custom(validateURL),
+  }),
+});
+
 const validateUserId = celebrate({
   params: Joi.object().keys({
     userId: Joi.string().hex().length(24).required(),
@@ -49,6 +56,7 @@ module.exports = {
   validateClothingItem,
   validateUserSignup,
   validateUserSignin,
+  validateUserUpdate,
   validateUserId,
   validateItemId,
 };

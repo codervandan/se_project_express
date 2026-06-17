@@ -19,7 +19,7 @@ const createItem = (req, res, next) => {
         return next(new BadRequestError("Invalid item data"));
       }
 
-      return next(new BadRequestError("An error has occurred on the server."));
+      return next(err);
     });
 };
 
@@ -38,9 +38,7 @@ const deleteItem = (req, res, next) => {
 
   ClothingItem.findById(itemId)
     .orFail(() => {
-      const error = new Error("Item not found");
-      error.statusCode = NOT_FOUND;
-      throw error;
+      throw new NotFoundError("Item not found");
     })
     .then((item) => {
       if (item.owner.toString() !== req.user._id.toString()) {
@@ -56,7 +54,7 @@ const deleteItem = (req, res, next) => {
         return next(new BadRequestError("Invalid item ID"));
       }
 
-      if (err.statusCode === NOT_FOUND) {
+      if (err.name === "NotFoundError") {
         return next(new NotFoundError("Item not found"));
       }
 
@@ -71,9 +69,7 @@ const likeItem = (req, res, next) => {
     { new: true }
   )
     .orFail(() => {
-      const error = new Error("Item not found");
-      error.statusCode = NOT_FOUND;
-      throw error;
+      throw new NotFoundError("Item not found");
     })
     .then((item) => res.send(item))
     .catch((err) => {
@@ -85,7 +81,7 @@ const likeItem = (req, res, next) => {
         return next(new NotFoundError("Item not found"));
       }
 
-      return next(new BadRequestError("An error has occurred on the server."));
+      return next(err);
     });
 };
 
@@ -96,9 +92,7 @@ const dislikeItem = (req, res, next) => {
     { new: true }
   )
     .orFail(() => {
-      const error = new Error("Item not found");
-      error.statusCode = NOT_FOUND;
-      throw error;
+      throw new NotFoundError("Item not found");
     })
     .then((item) => res.send(item))
     .catch((err) => {
@@ -110,7 +104,7 @@ const dislikeItem = (req, res, next) => {
         return next(new NotFoundError("Item not found"));
       }
 
-      return next(new BadRequestError("An error has occurred on the server."));
+      return next(err);
     });
 };
 

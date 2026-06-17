@@ -5,7 +5,7 @@ require("dotenv").config();
 const { errors } = require("celebrate");
 const routes = require("./routes");
 const errorHandler = require("./middlewares/error-handler");
-const { NOT_FOUND } = require("./utils/errors");
+const NotFoundError = require("./utils/errors/NotFoundError");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const { PORT = 3001 } = process.env;
@@ -19,7 +19,7 @@ app.use(requestLogger);
 
 app.get("/crash-test", () => {
   setTimeout(() => {
-    throw new Error("Server will crash now");
+    next(new BadRequestError("Server will crash now"));
   }, 0);
 });
 
@@ -33,9 +33,7 @@ mongoose
   .catch(() => {});
 
 app.use((req, res, next) => {
-  const err = new Error("Requested resource not found");
-  err.statusCode = NOT_FOUND;
-  next(err);
+  next(new NotFoundError("Requested resource not found"));
 });
 
 app.use(errors());
